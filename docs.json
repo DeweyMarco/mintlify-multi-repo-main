@@ -1,0 +1,53 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "luma",
+  "name": "Algorithm APIs",
+  "description": "Documentation for the Merge Sort and Shortest Path APIs.",
+  "colors": {
+    "primary": "#4F46E5",
+    "light": "#818CF8",
+    "dark": "#3730A3"
+  },
+  "icons": {
+    "library": "lucide"
+  },
+  "navigation": {
+    "products": [
+      {
+        "product": "Overview",
+        "icon": "house",
+        "pages": [
+          "index"
+        ]
+      },
+      {
+        "product": "Merge Sort API",
+        "icon": "arrow-down-up",
+        "description": "Sort numbers with merge sort.",
+        "groups": [
+          {
+            "sourceRef": "DeweyMarco/mintlify-multi-repo-1"
+          }
+        ]
+      },
+      {
+        "product": "Shortest Path API",
+        "icon": "route",
+        "description": "Find shortest paths with Dijkstra's algorithm.",
+        "groups": [
+          {
+            "sourceRef": "DeweyMarco/mintlify-multi-repo-2"
+          }
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/DeweyMarco"
+      }
+    ]
+  }
+}
