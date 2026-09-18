@@ -1,15 +1,49 @@
 ---
-title: "Algorithm APIs"
-description: "Simple APIs for sorting numbers and finding shortest paths."
+title: "Multi-repository documentation"
+description: "How one base repository combines two independently deployed documentation sites."
 ---
 
-Use either API independently, or browse both from this combined documentation site.
+This site demonstrates a Mintlify multi-repo setup. The base repository owns the shared site configuration and this guide, while two child repositories own their API code and documentation.
+
+Each child is used in two places: it has its own Mintlify deployment for focused previews and automations, and it is also mounted into this combined site for readers who want one documentation experience.
+
+<CardGroup cols={3}>
+  <Card title="Understand the architecture" icon="diagram-project" href="/multi-repo/architecture">
+    See how the base and child repositories fit together without copying documentation.
+  </Card>
+  <Card title="Configure the deployments" icon="sliders" href="/multi-repo/setup">
+    Connect the same child repositories to standalone and combined Mintlify projects.
+  </Card>
+  <Card title="Run focused automations" icon="wand-magic-sparkles" href="/multi-repo/automations">
+    Keep automation context and pull requests scoped to the repository that owns the code.
+  </Card>
+</CardGroup>
+
+## The repositories
+
+<CardGroup cols={3}>
+  <Card title="Base repository" icon="github" href="https://github.com/DeweyMarco/mintlify-multi-repo-main">
+    Owns the combined `docs.json`, this overview, and the top-level navigation.
+  </Card>
+  <Card title="Merge Sort repository" icon="github" href="https://github.com/DeweyMarco/mintlify-multi-repo-1">
+    Owns the Merge Sort API, its docs, and its standalone deployment.
+  </Card>
+  <Card title="Shortest Path repository" icon="github" href="https://github.com/DeweyMarco/mintlify-multi-repo-2">
+    Owns the Dijkstra API, its docs, and its standalone deployment.
+  </Card>
+</CardGroup>
+
+## Explore the combined site
 
 <CardGroup cols={2}>
   <Card title="Merge Sort API" icon="arrow-down-up" href="/merge-sort/quickstart">
-    Sort a list of numbers with a straightforward merge sort implementation.
+    Sort integer arrays with the API implemented in repository 1.
   </Card>
   <Card title="Shortest Path API" icon="route" href="/shortest-path/quickstart">
-    Find the shortest path through a weighted graph with Dijkstra's algorithm.
+    Find the least-cost route through a weighted graph with the API implemented in repository 2.
   </Card>
 </CardGroup>
+
+<Info>
+  The combined site is a presentation layer, not a copy of the child docs. Changes remain in the repository that owns them.
+</Info>

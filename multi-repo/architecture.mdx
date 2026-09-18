@@ -1,0 +1,66 @@
+---
+title: "Architecture"
+description: "How the base repository and two child documentation sources produce three independent deployments and one combined site."
+---
+
+The setup separates where documentation is **owned** from where it is **presented**. Each child repository owns its code and docs, while the base repository assembles those docs into shared navigation.
+
+```text
+mintlify-multi-repo-main              Combined deployment
+├── docs.json                         /
+├── index.mdx                         /multi-repo/*
+├── sourceRef: multi-repo-1 ────────  /merge-sort/*
+└── sourceRef: multi-repo-2 ────────  /shortest-path/*
+
+mintlify-multi-repo-1                 Merge Sort standalone deployment
+└── docs/                              /
+
+mintlify-multi-repo-2                 Shortest Path standalone deployment
+└── docs/                              /
+```
+
+## Repository responsibilities
+
+| Repository | What it owns | Combined path | Other deployment |
+| --- | --- | --- | --- |
+| [Base repository](https://github.com/DeweyMarco/mintlify-multi-repo-main) | Shared branding, top-level navigation, and this guide | `/` and `/multi-repo` | Combined documentation site |
+| [Merge Sort repository](https://github.com/DeweyMarco/mintlify-multi-repo-1) | Merge Sort API and its `docs` directory | `/merge-sort` | Standalone Merge Sort docs |
+| [Shortest Path repository](https://github.com/DeweyMarco/mintlify-multi-repo-2) | Dijkstra API and its `docs` directory | `/shortest-path` | Standalone Shortest Path docs |
+
+The child docs are not vendored, mirrored, or maintained twice. Mintlify reads each connected Git source when it builds the combined deployment.
+
+## How navigation is stitched together
+
+The base repository is the deployment's base source, so its [`docs.json`](https://github.com/DeweyMarco/mintlify-multi-repo-main/blob/main/docs.json) controls global styling and top-level navigation. Its product switcher includes the navigation exported by each child repository:
+
+```json
+{
+  "products": [
+    {
+      "product": "Merge Sort",
+      "sourceRef": "DeweyMarco/mintlify-multi-repo-1"
+    },
+    {
+      "product": "Shortest Path",
+      "sourceRef": "DeweyMarco/mintlify-multi-repo-2"
+    }
+  ]
+}
+```
+
+`sourceRef` identifies another Git source in the same Mintlify deployment. The Mintlify dashboard gives that source its URL prefix—`/merge-sort` or `/shortest-path`—and the referenced child `docs.json` supplies the navigation below that product.
+
+<Warning>
+  URL paths must be unique across sources. Only the base source should use `/`.
+</Warning>
+
+## Why keep standalone deployments?
+
+The combined site is optimized for readers: one domain, one search experience, and one product switcher. The standalone deployments are optimized for contributors: each one stays attached to a single codebase, so previews and documentation automations have the smallest useful context.
+
+That gives each child repository two delivery contexts without creating a second source of truth:
+
+1. A pull request previews and updates the child site's documentation.
+2. The same merged files appear under the child's path in the combined site.
+
+Read Mintlify's [multi-repository documentation](https://www.mintlify.com/docs/deploy/multi-repo) for the platform-level behavior and requirements.

@@ -1,0 +1,67 @@
+---
+title: "Deployment setup"
+description: "Connect one base source and two reusable child sources to Mintlify."
+---
+
+This example uses three Mintlify projects: one combined project and one standalone project for each child repository. The child Git repositories are connected twice—once to their own project and once as a source in the combined project.
+
+<Note>
+  Mintlify multi-repo support is available on the Enterprise plan. The GitHub App must have access to all three repositories.
+</Note>
+
+## Source map
+
+Configure the combined project with these sources:
+
+| Source | Branch | Content directory | URL path |
+| --- | --- | --- | --- |
+| `DeweyMarco/mintlify-multi-repo-main` | `main` | repository root | `/` |
+| `DeweyMarco/mintlify-multi-repo-1` | `main` | `docs` | `/merge-sort` |
+| `DeweyMarco/mintlify-multi-repo-2` | `main` | `docs` | `/shortest-path` |
+
+<Steps>
+  <Step title="Create the two standalone projects">
+    Connect [`mintlify-multi-repo-1`](https://github.com/DeweyMarco/mintlify-multi-repo-1) and [`mintlify-multi-repo-2`](https://github.com/DeweyMarco/mintlify-multi-repo-2) as separate Mintlify projects. For each project, set the content directory to `docs`.
+
+    Each child `docs.json` is complete, so the child can render at `/` on its own deployment.
+  </Step>
+  <Step title="Create the combined project">
+    Connect [`mintlify-multi-repo-main`](https://github.com/DeweyMarco/mintlify-multi-repo-main) and keep it as the base source at `/`. Its `docs.json` controls the site-wide theme, header, and top-level navigation.
+  </Step>
+  <Step title="Add the child sources">
+    In the combined project's Git settings, add both child repositories. Set their content directory to `docs` and assign the non-overlapping URL paths shown in the source map.
+  </Step>
+  <Step title="Reference the child navigation">
+    Keep each `sourceRef` in the base `docs.json` aligned with the repository's `owner/repository` name. The referenced source must already belong to the same combined deployment.
+  </Step>
+  <Step title="Deploy and verify">
+    Open the product switcher and confirm that Merge Sort resolves under `/merge-sort` and Shortest Path resolves under `/shortest-path`. Then follow a link in each child section to verify its root-relative paths.
+  </Step>
+</Steps>
+
+## Local development
+
+Run Mintlify from the directory that contains the `docs.json` you want to preview.
+
+<CodeGroup>
+```bash Base repository
+cd mintlify-multi-repo-main
+mint dev
+```
+
+```bash Merge Sort repository
+cd mintlify-multi-repo-1/docs
+mint dev
+```
+
+```bash Shortest Path repository
+cd mintlify-multi-repo-2/docs
+mint dev
+```
+</CodeGroup>
+
+The child previews are fully self-contained. The base local preview covers the base pages and configuration; use the combined Mintlify deployment to verify all dashboard-connected sources together.
+
+<Tip>
+  Links within one child can stay relative. Links that cross repository boundaries should be root-relative and include the target source's configured prefix, such as `/shortest-path/quickstart`.
+</Tip>

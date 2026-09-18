@@ -1,0 +1,42 @@
+---
+title: "Repository-scoped automations"
+description: "Why each child also has a standalone deployment and how documentation updates flow into the combined site."
+---
+
+The standalone deployments keep documentation automation close to the code it describes. An automation for the Merge Sort API works only in the Merge Sort repository; it does not need the Dijkstra implementation or the base site's presentation files in its context.
+
+## Automation boundaries
+
+| Project | Repository context | Appropriate automation scope |
+| --- | --- | --- |
+| Combined site | [Base repository](https://github.com/DeweyMarco/mintlify-multi-repo-main) | Improve the architecture guide, shared navigation, or global presentation |
+| Merge Sort site | [Merge Sort repository](https://github.com/DeweyMarco/mintlify-multi-repo-1) | Keep Merge Sort guides and API reference aligned with its implementation |
+| Shortest Path site | [Shortest Path repository](https://github.com/DeweyMarco/mintlify-multi-repo-2) | Keep Dijkstra guides and API reference aligned with its implementation |
+
+This split matters because the combined site and the automation projects solve different problems. Multi-repo creates one reader experience; standalone projects preserve clear ownership and focused automation context.
+
+## Update flow
+
+<Steps>
+  <Step title="Code changes in a child repository">
+    A contributor changes an API in the repository that owns it.
+  </Step>
+  <Step title="The child automation reviews local context">
+    The automation compares that repository's implementation and `docs` directory, then proposes a documentation update in the same repository.
+  </Step>
+  <Step title="The child deployment previews the change">
+    Reviewers can check a focused preview without navigating the unrelated API or the base site's files.
+  </Step>
+  <Step title="The update is merged once">
+    The standalone project deploys the merged child docs, and the combined project consumes those same files through its configured Git source.
+  </Step>
+</Steps>
+
+## Recommended guardrails
+
+- Have automations open pull requests so code owners can review generated documentation before it ships.
+- Scope each automation to user-facing code changes and the local `docs` directory so unrelated commits do not create noisy updates.
+- Validate the child `docs.json` and links before merging because the same files serve both the standalone and combined deployments.
+- Keep global navigation changes in the base repository and product-specific navigation in the child repository that owns it.
+
+Mintlify automations can run from repository changes or a schedule and can propose updates through pull requests. See the [Mintlify automations overview](https://www.mintlify.com/blog/automations) for the current product workflow.

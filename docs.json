@@ -1,8 +1,8 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "luma",
-  "name": "Algorithm APIs",
-  "description": "Documentation for the Merge Sort and Shortest Path APIs.",
+  "name": "Multi-repo Algorithm Docs",
+  "description": "A Mintlify multi-repo site with independently deployed Merge Sort and Shortest Path documentation.",
   "colors": {
     "primary": "#4F46E5",
     "light": "#818CF8",
@@ -17,7 +17,10 @@
         "product": "Overview",
         "icon": "house",
         "pages": [
-          "index"
+          "index",
+          "multi-repo/architecture",
+          "multi-repo/setup",
+          "multi-repo/automations"
         ]
       },
       {
@@ -46,7 +49,7 @@
     "links": [
       {
         "label": "GitHub",
-        "href": "https://github.com/DeweyMarco"
+        "href": "https://github.com/DeweyMarco/mintlify-multi-repo-main"
       }
     ]
   }
